@@ -1,0 +1,14 @@
+.page {
+  background-color: #000;
+  max-width: 880px;
+  margin: 0 auto;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+@media screen and (max-width: 890px) {
+  .page {
+    margin: 0 19px 0;
+  }
+}
