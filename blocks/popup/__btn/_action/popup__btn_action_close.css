@@ -1,7 +1,7 @@
 .popup__btn_action_close {
   position: absolute;
-  top: -50px;
-  right: -50px;
+  top: -39px;
+  right: -39px;
   cursor: pointer;
   background: url(../../../../images/close_icon.svg) transparent no-repeat center/cover;
   width: 32px;
@@ -17,6 +17,7 @@
 
 @media screen and (max-width: 640px) {
   .popup__btn_action_close {
+    top: -36px;
     width: 20px;
     height: 20px;
     right: 0;

@@ -7,8 +7,3 @@
   text-rendering: optimizeLegibility;
 }
 
-@media screen and (max-width: 890px) {
-  .page {
-    margin: 0 19px 0;
-  }
-}
