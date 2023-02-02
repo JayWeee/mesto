@@ -8,6 +8,14 @@
 
 @media screen and (max-width: 890px) {
   .photo-grid {
+    grid-template-columns: repeat(2, 282px);
+    justify-content: center;
     margin: 0 19px 52px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .photo-grid {
+    grid-template-columns: 282px;
   }
 }

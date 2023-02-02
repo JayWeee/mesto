@@ -1,31 +1,45 @@
+// Кнопка "Добавить"
 let editElem = document.querySelector('.profile__btn_action_edit');
-let formElement = document.querySelector('form')
-let popupElem = document.querySelector('.popup');
-let popupCloseElem = document.querySelector('.popup__btn_action_close');
-let popupInputElem = document.querySelectorAll('.popup__input');
-let popupSubmitElem = document.querySelector('.popup__btn_action_submit');
-let nameInput = document.querySelector('.profile__name');
-let jobInput = document.querySelector('.profile__status');
 
+// Форма
+let formElement = document.querySelector('form');
+
+// Попап
+let popupElem = document.querySelector('.popup');
+
+// Кнопка "Закрыть"
+let popupCloseElem = document.querySelector('.popup__btn_action_close');
+
+// Инпут с именем в попапе
+let popupInputElemName = document.querySelector('input[name=name]');
+
+// Инпут с названием работы в попапе
+let popupInputElemJob = document.querySelector('input[name=job]');
+
+// Имя в профиле
+let nameText = document.querySelector('.profile__name');
+
+// Статус профиля
+let jobText = document.querySelector('.profile__status');
+
+// Открытие попапа
 editElem.addEventListener('click', () => {
   popupElem.classList.add('popup_opened');
+  popupInputElemName.value = nameText.textContent;
+  popupInputElemJob.value = jobText.textContent;
 });
 
+// Закрытие попапа на крестик
 popupCloseElem.addEventListener('click', () => {
   popupElem.classList.remove('popup_opened');
 });
 
-popupSubmitElem.addEventListener('click', () => {
-  popupElem.classList.remove('popup_opened');
-});
-
-popupInputElem[0].value = nameInput.textContent;
-popupInputElem[1].value = jobInput.textContent;
-
+// Функция отправки формы на кнопку "Сохранить"
 function formSubmitHandler (evt) {
   evt.preventDefault();
-  nameInput.textContent = popupInputElem[0].value
-  jobInput.textContent = popupInputElem[1].value
+  nameText.textContent = popupInputElemName.value
+  jobText.textContent = popupInputElemJob.value
+  popupElem.classList.remove('popup_opened');
 }
 
 formElement.addEventListener('submit', formSubmitHandler); 

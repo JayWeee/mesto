@@ -1,10 +1,11 @@
 .profile__btn_action_add {
-  width: 149px;
-  height: 49px;
-  border: 1px solid white;
-  background: url(../../../../images/add_btn.svg) black no-repeat 50%;
+  width: 150px;
+  height: 50px;
+  border: 2px solid white;
+  border-radius: 2px;
+  background: url(../../../../images/add_btn.svg) black no-repeat center;
   cursor: pointer;
-  margin-top: 34px;
+  margin-top: 33px;
   transition: opacity .2s linear;
 }
 
@@ -21,6 +22,7 @@
 
 @media screen and (max-width: 550px) {
   .profile__btn_action_add {
+    background-size: 5.6%;
     margin-top: 34px;
   }
 }
