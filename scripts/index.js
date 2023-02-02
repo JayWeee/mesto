@@ -22,6 +22,7 @@ let nameText = document.querySelector('.profile__name');
 // Статус профиля
 let jobText = document.querySelector('.profile__status');
 
+
 // Открытие попапа
 editElem.addEventListener('click', () => {
   popupElem.classList.add('popup_opened');
