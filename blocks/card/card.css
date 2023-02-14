@@ -1,5 +1,6 @@
 .card {
   max-width: 100%;
+  position: relative;
   object-fit: cover;
   background-color: white;
   border-radius: 10px;
