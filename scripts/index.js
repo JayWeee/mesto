@@ -45,11 +45,11 @@ const cardsTemplate = document.querySelector('#cards');
 // Контейнер photo grid
 const sectionPhotoGrid = document.querySelector('.photo-grid');
 
-// Темплейт popup-image
-const popupImageTemplate = document.querySelector('#popup-image');
+// Темплейт image
+const popupImageTemplate = document.querySelector('#image');
 
 // Попап с открытой картинкой
-const popupImage = document.querySelector('.popup-image');
+const popupImage = document.querySelector('.popup_type_image');
 
 // Кнопка закрыть попап с картинкой
 const popupCloseImageElem = popupImage.querySelector('.popup__btn_action_close');
@@ -103,8 +103,8 @@ initialCards.forEach(function(el) {
     const templateImageContent = popupImageTemplate.content.cloneNode(true);
     
 
-    templateImageContent.querySelector('.popup-image__photo').src = evt.target.src;
-    templateImageContent.querySelector('.popup-image__caption').textContent = el.name;
+    templateImageContent.querySelector('.popup__photo').src = evt.target.src;
+    templateImageContent.querySelector('.popup__caption').textContent = el.name;
 
     popupImageTemplate.after(templateImageContent);
   });
@@ -140,8 +140,8 @@ popupCardClose.addEventListener('click', function () {
 // Закрытие попапа Image
 popupCloseImageElem.addEventListener('click', function () {
   popupImage.classList.remove('popup_opened')
-  document.querySelector('.popup-image__photo').remove();
-  document.querySelector('.popup-image__caption').remove();
+  document.querySelector('.popup__photo').remove();
+  document.querySelector('.popup__caption').remove();
 });
 
 // Функция отправки формы на кнопку "Сохранить"
@@ -178,8 +178,8 @@ function formCardSubmitHandler (evt) {
 
     const cardTitle = evt.target.closest('.card').lastElementChild.firstElementChild;
 
-    templateImageContent.querySelector('.popup-image__photo').src = evt.target.src;
-    templateImageContent.querySelector('.popup-image__caption').textContent = cardTitle.textContent;
+    templateImageContent.querySelector('.popup__photo').src = evt.target.src;
+    templateImageContent.querySelector('.popup__caption').textContent = cardTitle.textContent;
 
     popupImageTemplate.after(templateImageContent);
   });
