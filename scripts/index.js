@@ -17,12 +17,14 @@ const cardForm = document.forms['new-place'];
 const popupEdit = document.querySelector('.popup_type_edit');
 
 // Попап card
-const popupCard = document.querySelector('.popup_type_card')
+const popupCard = document.querySelector('.popup_type_card');
 
-// Кнопка "Закрыть"
-const popupEditClose = popupEdit.querySelector('.popup__btn_action_close');
+// Попап Image
+const popupImage = document.querySelector('.popup_type_image');
 
-const popupCardClose = popupCard.querySelector('.popup__btn_action_close');
+const popupZoomImage = popupImage.querySelector('.popup__photo');
+
+const popupZoomCaption = popupImage.querySelector('.popup__caption');
 
 // Инпут с именем в попапе
 const popupInputElemName = profileForm.name;
@@ -47,15 +49,6 @@ const cardsTemplate = document.querySelector('#cards');
 
 // Контейнер photo grid
 const sectionPhotoGrid = document.querySelector('.photo-grid');
-
-// Темплейт image
-const popupImageTemplate = document.querySelector('#image');
-
-// Попап с открытой картинкой
-const popupImage = document.querySelector('.popup_type_image');
-
-// Кнопка закрыть попап с картинкой
-const popupCloseImageElem = popupImage.querySelector('.popup__btn_action_close');
 
 // Массив с карточками
 const initialCards = [
@@ -88,21 +81,33 @@ const initialCards = [
 function createCard (item) {
   const cardElement = cardsTemplate.content.cloneNode(true);
 
-  let cardImage = cardElement.querySelector('.card__image');
+  const cardImage = cardElement.querySelector('.card__image');
 
   const cardTitle = cardElement.querySelector('.card__title');
+
+  const cardTrash = cardElement.querySelector('.card__btn_action_remove');
+
+  const cardLike = cardElement.querySelector('.card__btn_action_like');
 
   cardTitle.textContent = item.name;
   cardImage.src = item.link;
   cardImage.alt = item.name
 
-  cardElement.querySelector('.card__btn_action_like').addEventListener('click', function(evt) {
+  cardLike.addEventListener('click', function(evt) {
     evt.target.classList.toggle('card__btn_aciton_like-active')
   });
 
-  cardElement.querySelector('.card__btn_action_remove').addEventListener('click', function (evt) {
+  cardTrash.addEventListener('click', function (evt) {
     evt.target.closest('.card').remove()
   });
+
+  // Открытие попапа с картинкой
+  cardImage.addEventListener('click', function(el) {
+      popupZoomImage.src = el.target.src;
+      popupZoomImage.alt = el.target.alt
+      popupZoomCaption.textContent = el.target.alt;
+      openPopup(popupImage);
+    });
 
   return cardElement
 };
@@ -139,19 +144,13 @@ closeButtons.forEach(function(button) {
   button.addEventListener('click', () => closePopup(popup));
 });
 
-// Закрытие попапа Image
-popupCloseImageElem.addEventListener('click', function () {
-  popupImage.classList.remove('popup_opened')
-  // document.querySelector('.popup__photo').remove();
-  // document.querySelector('.popup__caption').remove();
-});
 
 // Функция отправки формы на кнопку "Сохранить"
 function handleProfileFormSubmit (evt) {
   evt.preventDefault();
   nameText.textContent = popupInputElemName.value
   jobText.textContent = popupInputElemJob.value
-  popupEdit.classList.remove('popup_opened');
+  closePopup(popupEdit);
 }
 
 profileForm.addEventListener('submit', handleProfileFormSubmit); 
@@ -160,18 +159,14 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 function handleCardFormSubmit (evt) {
   evt.preventDefault();
 
-  const cardArr = [
-    {
-      name: popupInputElemTitle.value,
-      link: popupInputElemLink.value
-    }
-  ];
+ const item = {
+    name: popupInputElemTitle.value,
+    link: popupInputElemLink.value,
+  };
 
-  cardArr.forEach(function (el) {
-    const newCard = createCard(el)
+  const newCard = createCard(item);
 
-    cardsTemplate.after(newCard);
-  });
+  cardsTemplate.after(newCard);
 
   popupInputElemTitle.value = '';
   popupInputElemLink.value = '';
@@ -180,28 +175,3 @@ function handleCardFormSubmit (evt) {
 }
 
 cardForm.addEventListener('submit', handleCardFormSubmit);
-
-let cardImage = document.querySelectorAll('.card__image');
-
-function cardPopupOpen (item) {
-  const cardOpen = popupImageTemplate.content.cloneNode(true);
-
-  const popupZoomImage = cardOpen.querySelector('.popup__photo');
-
-  const popupZoomCaption = cardOpen.querySelector('.popup__caption');
-
-  popupZoomImage.src = item.src;
-  popupZoomImage.alt = item.alt;
-  popupZoomCaption.textContent = item.alt;
-
-  return cardOpen;
-};
-
-// Открытие попапа с картинкой
-cardImage.forEach(function (el) {
-  el.addEventListener('click', function(evt) {
-    openPopup(popupImage);
-    const zoomImage = cardPopupOpen(el);
-    popupImageTemplate.after(zoomImage);
-  })
-});
