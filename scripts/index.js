@@ -166,7 +166,7 @@ function handleCardFormSubmit (evt) {
 
   const newCard = createCard(item);
 
-  cardsTemplate.after(newCard);
+  sectionPhotoGrid.prepend(newCard);
 
   popupInputElemTitle.value = '';
   popupInputElemLink.value = '';
