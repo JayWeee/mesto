@@ -110,8 +110,6 @@ function createCard (item) {
       popupZoomImage.alt = el.target.alt
       popupZoomCaption.textContent = el.target.alt;
       openPopup(popupImage);
-      document.addEventListener('keydown', handleKeyEsc);
-      document.addEventListener('click', handleClickOverlay);
     });
 
   return cardElement
@@ -126,13 +124,13 @@ initialCards.forEach(function(el) {
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', handleKeyEsc);
+  document.addEventListener('click', handleClickOverlay);
 };
 
 // Открытие попапа "Редактировать профиль"
 editElem.addEventListener('click', function () {
   openPopup(popupEdit);
-  document.addEventListener('keydown', handleKeyEsc);
-  document.addEventListener('click', handleClickOverlay);
   popupInputElemName.value = nameText.textContent;
   popupInputElemJob.value = jobText.textContent;
 });
@@ -140,12 +138,12 @@ editElem.addEventListener('click', function () {
 // Открытие попапа "Добавить карточку"
 addElem.addEventListener('click', function () {
   openPopup(popupCard);
-  document.addEventListener('keydown', handleKeyEsc);
-  document.addEventListener('click', handleClickOverlay);
 });
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', handleKeyEsc);
+  document.removeEventListener('click', handleClickOverlay);
 };
 
 closeButtons.forEach(function(button) {
@@ -177,17 +175,15 @@ function handleCardFormSubmit (evt) {
 
   sectionPhotoGrid.prepend(newCard);
 
-  popupInputElemTitle.value = '';
-  popupInputElemLink.value = '';
+  evt.target.reset();
 
   closePopup(popupCard);
 }
 
 function handleKeyEsc(evt) {
-  const popupOpened = document.querySelector('.popup_opened');
 
   if (evt.key === 'Escape') {
-    document.removeEventListener('keydown', handleKeyEsc);
+    const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
   }
 };
@@ -195,7 +191,6 @@ function handleKeyEsc(evt) {
 function handleClickOverlay(evt) {
 
   if (evt.target.classList.contains('popup_opened')) {
-    document.removeEventListener('click', handleClickOverlay)
     closePopup(evt.target)
   }
 };

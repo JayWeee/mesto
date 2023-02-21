@@ -38,6 +38,12 @@ const setEventListeners = (formElement, inputSelector, submitButtonSelector, inp
       toggleButtonState(inputList, buttonElement, inactiveButtonClass);
     });
   });
+
+  formElement.addEventListener('reset', () => {
+    setTimeout(() => {  
+      toggleButtonState(inputList, buttonElement, inactiveButtonClass), 0 
+    });
+  });
 };
 
 // Функция проверки наличия невалидного поля
@@ -51,8 +57,10 @@ const hasInvalidInput = (inputList) => {
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(inactiveButtonClass);
+    buttonElement.setAttribute('disabled', 'disabled');
   } else {
     buttonElement.classList.remove(inactiveButtonClass);
+    buttonElement.removeAttribute('disabled');
   };
 };
 
