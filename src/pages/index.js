@@ -1,4 +1,4 @@
-import './index.css'
+import './index.css';
 import {
   editElem,
   addElem,
@@ -10,8 +10,8 @@ import {
   photoGridSelector,
   formValidators,
   initialCards,
-  config
-} from '../utils/constants.js'
+  config,
+} from '../utils/constants.js';
 
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
@@ -21,6 +21,18 @@ import UserInfo from '../components/UserInfo.js';
 import FormValidator from '../components/FormValidator.js';
 
 const userInfo = new UserInfo({ userName: nameText, userStatus: jobText });
+const popupZoomImage = new PopupWithImage('.popup_type_image');
+const popupTypeEdit = new PopupWithForm('.popup_type_edit', {
+  callbackFormSubmit: (data) => {
+    userInfo.setUserInfo(data);
+  },
+});
+const popupTypeCard = new PopupWithForm('.popup_type_card', {
+  callbackFormSubmit: handleCardFormSubmit,
+});
+popupZoomImage.setEventListeners();
+popupTypeEdit.setEventListeners();
+popupTypeCard.setEventListeners();
 
 // Создание карточек на странице
 const rendererCards = new Section(
@@ -58,7 +70,6 @@ function enableValidation(config) {
 }
 
 function handleCardClick({ name, link }) {
-  const popupZoomImage = new PopupWithImage('.popup_type_image');
   popupZoomImage.open(name, link);
 }
 
@@ -67,24 +78,14 @@ editElem.addEventListener('click', () => {
   const { name, job } = userInfo.getUserInfo();
   popupInputElemName.value = name;
   popupInputElemJob.value = job;
-  const popup = new PopupWithForm('.popup_type_edit', {
-    callbackFormSubmit: (data) => {
-      userInfo.setUserInfo(data);
-    },
-  });
-
   formValidators['edit-profile'].resetValidation();
-  popup.open();
+  popupTypeEdit.open();
 });
 
 // Открытие попапа "Добавить карточку"
 addElem.addEventListener('click', function () {
-  const popup = new PopupWithForm('.popup_type_card', {
-    callbackFormSubmit: handleCardFormSubmit,
-  });
-
   formValidators['new-place'].resetValidation();
-  popup.open();
+  popupTypeCard.open();
 });
 
 // Функция отправки формы с новой карточкой
