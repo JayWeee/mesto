@@ -37,23 +37,34 @@ const popupTypeConfirm = new PopupWithConfirm('.popup_type_confirm-delite', {
   }
 });
 
+function renderLoading(isLoading, submitButton) {
+  if (isLoading) {
+    submitButton.textContent = 'Сохранение...'
+  } else {
+    submitButton.textContent = 'Сохранить'
+  }
+}
+
 const popupTypeEditProfile = new PopupWithForm('.popup_type_edit', {
-  callbackFormSubmit: (data) => {
+  callbackFormSubmit: (data, submitButton) => {
+    console.log(submitButton)
+    renderLoading(true, submitButton)
     api.setUserInfo(data)
       .then(data => userInfo.setUserInfo(data))
       .catch(err => console.log(err))
+      .finally(() => renderLoading(false, submitButton))
   }
 });
 
 const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', {
-  callbackFormSubmit: (data) => {
+  callbackFormSubmit: (data, submitButton) => {
     api.setUserAvatar(data)
     .then(res => userInfo.setUserInfo(res))
     .catch(err => console.log(err))
   }
 })
 const popupTypeCard = new PopupWithForm('.popup_type_card', {
-  callbackFormSubmit: ({ title: titleInputText, link: linkInputText }) => {
+  callbackFormSubmit: ({ title: titleInputText, link: linkInputText }, submitButton) => {
     api.setNewCard({name: titleInputText, link: linkInputText})
     .then(res => {
       const cardElement = createCard(res, curentId);
