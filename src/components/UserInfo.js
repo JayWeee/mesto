@@ -1,18 +1,20 @@
 export default class UserInfo {
-  constructor({ userName, userStatus }) {
+  constructor({ userName, aboutUser, avatar }) {
     this._userName = userName;
-    this._userStatus = userStatus;
+    this._aboutUser = aboutUser;
+    this._avatar = avatar
   }
 
   getUserInfo() {
     return {
       name: this._userName.textContent,
-      job: this._userStatus.textContent
+      about: this._aboutUser.textContent,
     }
   }
 
-  setUserInfo({name, job}) {
+  setUserInfo({name, about, avatar}) {
     this._userName.textContent = name;
-    this._userStatus.textContent = job;
+    this._aboutUser.textContent = about;
+    this._avatar.src = avatar;
   }
 }

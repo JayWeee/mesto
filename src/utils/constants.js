@@ -11,45 +11,20 @@ export const profileForm = document.forms['edit-profile'];
 export const popupInputElemName = profileForm.name;
 
 // Инпут с названием работы в попапе
-export const popupInputElemJob = profileForm.job;
+export const popupInputElemAbout = profileForm.about;
 
 // Имя в профиле
 export const nameText = document.querySelector('.profile__name');
 
 // Статус профиля
-export const jobText = document.querySelector('.profile__status');
+export const aboutText = document.querySelector('.profile__status');
+
+// Аватар профиля
+export const profileAvatar = document.querySelector('.profile__avatar');
 
 export const photoGridSelector = '.photo-grid';
 
 export const formValidators = {};
-
-// Массив с карточками
-export const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  },
-];
 
 // Конфиг для валидации форм
 export const config = {
@@ -60,3 +35,11 @@ export const config = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active',
 };
+
+export const configApi = {
+  url: 'https://mesto.nomoreparties.co/v1/cohort-64/', 
+  headers: {
+    authorization: '31554c8a-77dd-4979-b2d2-ecadd12ea5c9',
+    'Content-Type': 'application/json'
+  }
+}

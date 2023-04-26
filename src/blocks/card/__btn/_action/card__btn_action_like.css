@@ -5,6 +5,7 @@
   width: 22px;
   cursor: pointer;
   transition: opacity .2s linear;
+  margin-bottom: 4px;
 }
 
 .card__btn_action_like:hover {
