@@ -22,6 +22,9 @@ export const aboutText = document.querySelector('.profile__status');
 // Аватар профиля
 export const profileAvatar = document.querySelector('.profile__avatar');
 
+// Кнопка редактировать профиль
+export const avatarEdit = document.querySelector('.profile__avatar-edit');
+
 export const photoGridSelector = '.photo-grid';
 
 export const formValidators = {};

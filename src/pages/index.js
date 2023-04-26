@@ -12,7 +12,8 @@ import {
   initialCards,
   config,
   configApi,
-  profileAvatar
+  profileAvatar,
+  avatarEdit
 } from '../utils/constants.js';
 
 import Card from '../components/Card.js';
@@ -36,13 +37,21 @@ const popupTypeConfirm = new PopupWithConfirm('.popup_type_confirm-delite', {
   }
 });
 
-const popupTypeEdit = new PopupWithForm('.popup_type_edit', {
+const popupTypeEditProfile = new PopupWithForm('.popup_type_edit', {
   callbackFormSubmit: (data) => {
     api.setUserInfo(data)
       .then(data => userInfo.setUserInfo(data))
       .catch(err => console.log(err))
   }
 });
+
+const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', {
+  callbackFormSubmit: (data) => {
+    api.setUserAvatar(data)
+    .then(res => userInfo.setUserInfo(res))
+    .catch(err => console.log(err))
+  }
+})
 const popupTypeCard = new PopupWithForm('.popup_type_card', {
   callbackFormSubmit: ({ title: titleInputText, link: linkInputText }) => {
     api.setNewCard({name: titleInputText, link: linkInputText})
@@ -68,9 +77,10 @@ api.getUserInfo()
   .catch(err => console.log(err))
 
 popupZoomImage.setEventListeners();
-popupTypeEdit.setEventListeners();
+popupTypeEditProfile.setEventListeners();
 popupTypeCard.setEventListeners();
 popupTypeConfirm.setEventListeners();
+popupTypeEditAvatar.setEventListeners()
 
 // Создание карточек на странице
 
@@ -128,7 +138,7 @@ editElem.addEventListener('click', () => {
   popupInputElemName.value = name;
   popupInputElemAbout.value = about;
   formValidators['edit-profile'].resetValidation();
-  popupTypeEdit.open();
+  popupTypeEditProfile.open();
 });
 
 // Открытие попапа "Добавить карточку"
@@ -136,5 +146,11 @@ addElem.addEventListener('click', function () {
   formValidators['new-place'].resetValidation();
   popupTypeCard.open();
 });
+
+// Открытие попапа "Редактировать аватар"
+avatarEdit.addEventListener('click', () => {
+  formValidators['edit-avatar'].resetValidation();
+  popupTypeEditAvatar.open()
+})
 
 enableValidation(config);

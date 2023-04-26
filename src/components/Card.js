@@ -61,14 +61,14 @@ export default class Card {
     this._element.remove();
   }
 
-  setLikeState(res) {
+  setLikeState(card) {
     if (this._isLiked) {
       this._likeButton.classList.remove('card__btn_aciton_like-active')
-      this._likeCounter.textContent = res.likes.length
+      this._likeCounter.textContent = card.likes.length
       this._isLiked = false
     } else {
       this._likeButton.classList.add('card__btn_aciton_like-active')
-      this._likeCounter.textContent = res.likes.length
+      this._likeCounter.textContent = card.likes.length
       this._isLiked = true
     }
   }
