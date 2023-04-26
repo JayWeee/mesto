@@ -16,7 +16,7 @@
         <div class="profile__content">
           <div class="profile__avatar-container">
             <span class="profile__avatar-edit"></span>
-            <img src="" alt="Фото профиля" class="profile__avatar">
+            <img src="<%=require('./images/photo.png')%>" alt="Фото профиля" class="profile__avatar">
           </div>
           <div class="profile__info">
             <div class="profile__name-container">
@@ -84,7 +84,7 @@
   <div class="popup popup_type_confirm-delite">
     <div class="popup__container">
       <button class="popup__btn popup__btn_action_close" type="button"></button>
-      <form class="popup__form" action="#" name="confirm-delete" id="card" novalidate>
+      <form class="popup__form" action="#" name="confirm-delete" id="confirm" novalidate>
         <h2 class="popup__header popup__header_margin-bottom">Вы уверены?</h2>
         <button type="submit" class="popup__btn popup__btn_action_submit">Да</button>
       </form>
@@ -93,7 +93,7 @@
   <div class="popup popup_type_edit-avatar">
     <div class="popup__container">
       <button class="popup__btn popup__btn_action_close" type="button"></button>
-      <form class="popup__form" action="#" name="edit-avatar" id="card" novalidate>
+      <form class="popup__form" action="#" name="edit-avatar" id="avatar" novalidate>
         <h2 class="popup__header">Обновить аватар</h2>
         <input class="popup__input" name="link" id="link-input" type="url" required placeholder="Ссылка на картинку">
         <span class="popup__input-error link-input-error"></span>
