@@ -16,6 +16,10 @@ import {
   avatarEdit
 } from '../utils/constants.js';
 
+import {
+  renderLoading
+} from '../utils/utils.js';
+
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -25,32 +29,33 @@ import FormValidator from '../components/FormValidator.js';
 import Api from '../components/Api.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
 
-let curentId;
+let curentId; // текущий id пользователя
+
+const api = new Api(configApi)
 
 const userInfo = new UserInfo({ userName: nameText, aboutUser: aboutText, avatar: profileAvatar });
+
 const popupZoomImage = new PopupWithImage('.popup_type_image');
+
 const popupTypeConfirm = new PopupWithConfirm('.popup_type_confirm-delite', {
   callbackFormSubmit: (cardElement, cardId) => {
-    cardElement.removeCard()
     api.removeCard(cardId)
+    .then(() => {
+      cardElement.removeCard()
+      popupTypeConfirm.close()
+    })
     .catch(err => console.log(err))
   }
 });
 
-function renderLoading(isLoading, submitButton) {
-  if (isLoading) {
-    submitButton.textContent = 'Сохранение...'
-  } else {
-    submitButton.textContent = 'Сохранить'
-  }
-}
-
 const popupTypeEditProfile = new PopupWithForm('.popup_type_edit', {
   callbackFormSubmit: (data, submitButton) => {
-    console.log(submitButton)
     renderLoading(true, submitButton)
     api.setUserInfo(data)
-      .then(data => userInfo.setUserInfo(data))
+      .then(data => {
+        userInfo.setUserInfo(data)
+        popupTypeEditProfile.close()
+      })
       .catch(err => console.log(err))
       .finally(() => renderLoading(false, submitButton))
   }
@@ -58,43 +63,46 @@ const popupTypeEditProfile = new PopupWithForm('.popup_type_edit', {
 
 const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', {
   callbackFormSubmit: (data, submitButton) => {
+    renderLoading(true, submitButton)
     api.setUserAvatar(data)
-    .then(res => userInfo.setUserInfo(res))
+    .then(res => {
+      userInfo.setUserInfo(res)
+      popupTypeEditAvatar.close()
+    })
     .catch(err => console.log(err))
+    .finally(() => renderLoading(false, submitButton))
   }
 })
+
 const popupTypeCard = new PopupWithForm('.popup_type_card', {
   callbackFormSubmit: ({ title: titleInputText, link: linkInputText }, submitButton) => {
+    renderLoading(true, submitButton)
     api.setNewCard({name: titleInputText, link: linkInputText})
     .then(res => {
       const cardElement = createCard(res, curentId);
-      rendererCards.addItem(cardElement);
+      rendererCards.addNewItem(cardElement);
+      popupTypeCard.close()
     })
     .catch(err => console.log(err))
+    .finally(() => renderLoading(false, submitButton))
   }
 });
 
-const api = new Api(configApi)
-
-api.getUserInfo()
-  .then(data => {
-    curentId = data._id;
-    userInfo.setUserInfo(data);
-  })
-  .catch(err => console.log(err))
-
-  api.getInitialCards()
-  .then(data => {rendererCards.renderItems(data)})
-  .catch(err => console.log(err))
-
 popupZoomImage.setEventListeners();
-popupTypeEditProfile.setEventListeners();
-popupTypeCard.setEventListeners();
 popupTypeConfirm.setEventListeners();
-popupTypeEditAvatar.setEventListeners()
+popupTypeEditProfile.setEventListeners();
+popupTypeEditAvatar.setEventListeners();
+popupTypeCard.setEventListeners();
 
-// Создание карточек на странице
+Promise.all([ api.getUserInfo(), api.getInitialCards() ])
+  .then(([userData, cardObject]) => {
+      curentId = userData._id;
+      userInfo.setUserInfo(userData);
+      rendererCards.renderItems(cardObject)
+  } )
+  .catch(err => console.log(err))
 
+// Функция отрисовки карточек
   const rendererCards = new Section(
     {
       renderer: (item) => {
@@ -106,6 +114,8 @@ popupTypeEditAvatar.setEventListeners()
     photoGridSelector
   );
 
+
+// Функция создания карточек
 function createCard(item, curentId) {
   const card = new Card(
     item, 
@@ -116,10 +126,10 @@ function createCard(item, curentId) {
       handleCardRemove: (cardElement) => {
         popupTypeConfirm.open(cardElement, item._id)
       },
-      handleCardLike: (isLiked) => {
-        isLiked
-        ? api.removeLikeCard(item._id).then(res => card.setLikeState(res))
-        : api.likeCard(item._id).then(res => card.setLikeState(res))
+      handleCardLike: () => {
+        card.isLiked()
+        ? api.removeLikeCard(item._id).then(res => card.setLikeState(res)).catch(err => console.log(err))
+        : api.likeCard(item._id).then(res => card.setLikeState(res)).catch(err => console.log(err))
       }
     },
     curentId
@@ -164,4 +174,5 @@ avatarEdit.addEventListener('click', () => {
   popupTypeEditAvatar.open()
 })
 
+// Включение валидации
 enableValidation(config);

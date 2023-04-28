@@ -10,7 +10,6 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleCardRemove = handleCardRemove;
     this._handleCardLike = handleCardLike;
-    this._isLiked = this._likes.filter(item => item._id === this._curentId).length > 0;
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector('.card__image');
     this._cardTitle = this._element.querySelector('.card__title');
@@ -61,26 +60,28 @@ export default class Card {
     this._element.remove();
   }
 
+  isLiked() {
+    return this._isLiked = this._likes.filter(item => item._id === this._curentId).length > 0;
+  }
+  
   setLikeState(card) {
-    if (this._isLiked) {
-      this._likeButton.classList.remove('card__btn_aciton_like-active')
-      this._likeCounter.textContent = card.likes.length
-      this._isLiked = false
-    } else {
-      this._likeButton.classList.add('card__btn_aciton_like-active')
-      this._likeCounter.textContent = card.likes.length
-      this._isLiked = true
-    }
+    this._likes = card.likes
+    this._likeCounter.textContent = card.likes.length
+    this.isLiked()
+   
+    this._isLiked
+    ? this._likeButton.classList.add('card__btn_aciton_like-active')
+    : this._likeButton.classList.remove('card__btn_aciton_like-active')
   }
 
   _showIconRemove() {
     if (this._curentId !== this._userId) {
-      this._removeIcon.classList.add('card__btn_show')
+      this._removeIcon.remove()
     }
   }
 
   _setUserLikes() {
-    this._isLiked
+    this.isLiked()
     ? this._likeButton.classList.add('card__btn_aciton_like-active')
     : this._likeButton.classList.remove('card__btn_aciton_like-active')
   }

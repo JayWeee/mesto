@@ -10,7 +10,6 @@ export default class PopupWithConfirm extends Popup {
   _handleFormSubmit = (evt) => {
     evt.preventDefault()
     this._callbackFormSubmit(this._cardElement, this._cardId)
-    super.close()
   }
 
   open(cardElement, cardId) {
